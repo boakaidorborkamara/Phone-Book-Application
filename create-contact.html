@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Contact</title>
+    <style>
+          body{
+            display: grid;
+            justify-content: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(238, 227, 227);
+           
+        }
+        main{
+            /* display: grid; */
+            /* justify-content: center; */
+            border: 1px solid green;
+            width: 40vw;
+            height: 95vh;
+            background-color: white;
+            
+        }
+
+        h1{
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        #nav-bar{
+            
+            margin-bottom: 25px;
+            
+        }
+
+        #nav-bar a{
+            text-decoration: none;
+            font-size: 1.5em;
+            padding: 15px;
+            background-color: indigo;
+            margin-bottom: 10px;
+            color: white;
+            display: block;
+            text-align: center;
+        }
+
+
+        #nav-bar a:hover{
+            /* background-color: rgb(8, 129, 8); */
+            background-color: green;
+        }
+
+        #form{
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        input{
+           
+            margin: 10px 0px;
+            width: 80%;
+            font-size: 1.5em;
+            padding: 5px;
+        }
+
+        button{
+            display: inline-block;
+            margin-top: 25px;
+            font-size: 1.5em;
+            padding: 5px;
+            cursor: pointer;
+            width: 150px;
+        }
+
+        button:hover{
+           
+            color:indigo;
+        }
+
+        /* BONUS */
+        
+        /* Apply style to this page */
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>PHONE BOOK</h1>
+        </header>
+        <section id="nav-bar">
+            <a href="/">View Contacts</a>
+            <a href="/contact/create">Create Contact</a>
+        </section>
+        <section id="form">
+            <form>
+                <input type="text" placeholder="Name" id="name">
+                <br>
+                <input type="text" placeholder="Contact" id="contact">
+                <br>
+                <button onclick="createContact()">Create</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function createContact(){
+            // TODO
+
+            /**
+             * Get the value from the input elements
+             * Make a POST request to the route "create"
+             * Notify the user if the contact was created
+            */
+            let name = document.getElementById('name').value;
+            let contact = document.getElementById('contact').value;
+
+            let frontend_data ={
+                'name': name,
+                'contact': contact
+            }
+
+            fetch('/create', {
+                method: 'POST',
+                'Content-Type' : 'application/json',
+                body: JSON.stringify(frontend_data)
+            })
+            .then(response => response.json())
+            .then((data) =>{
+               response.redirect('/contacts');
+               
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+
+           
+
+        }
+    </script>
+</body>
+</html>

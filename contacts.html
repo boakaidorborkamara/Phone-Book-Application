@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <style>
+        body{
+            display: grid;
+            justify-content: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(238, 227, 227);
+           
+        }
+        main{
+            /* display: grid; */
+            /* justify-content: center; */
+            border: 1px solid green;
+            width: 40vw;
+            height: 95vh;
+            background-color: white;
+            
+        }
+
+        h1{
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        #nav-bar{
+            
+            margin-bottom: 25px;
+            
+        }
+
+        #nav-bar a{
+            text-decoration: none;
+            font-size: 1.5em;
+            padding: 15px;
+            background-color: indigo;
+            margin-bottom: 10px;
+            color: white;
+            display: block;
+            text-align: center;
+        }
+
+        #nav-bar a:hover{
+            /* background-color: rgb(8, 129, 8); */
+            background-color: green;
+        }
+
+        #contacts{
+            padding: 15px;
+        }
+
+        #contacts table{
+            width: 100%;
+    
+        }
+
+        table{
+            border-collapse: collapse;
+        }
+
+        table thead{
+            text-align: left;
+        }
+
+        table,thead,th,tbody,td{
+            border: 1px solid green;
+        }
+
+        thead, td, th{
+            padding: 5px;
+        }
+
+        /* BONUS */
+        
+        /* Apply style to this page */
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>PHONE BOOK</h1>
+        </header>
+        <section id="nav-bar">
+            <a href="/">View Contacts</a>
+            <a href="/contact/create">Create Contact</a>
+        </section>
+        <section id="contacts">
+            <!-- Display your names and contacts here -->
+            <table>
+                <thead>
+                    <th>Names</th>
+                    <th>Contacts</th>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // TODO
+
+        /**
+         * Make a GET request to the "contacts" route
+         * From the result, display the names and contacts to the user
+         * You should use a table or list to display the items
+        */
+        let contacts = document.getElementById('contacts');
+       fetch('/contacts')
+       .then(response =>response.json())
+       .then((data) => {
+           console.log(data)
+        let fetched_data = data.rows;
+        fetched_data.forEach((ele,index)=>{
+            console.log(ele.contact);
+            let table_data =
+                        `
+                        <tr>
+                            <td>${ele.name}</td>
+                            <td>${ele.contact}</td>
+                        </tr>
+                        `;
+                        document.querySelector('tbody').insertAdjacentHTML('beforeend', table_data)
+                    });
+        
+            
+       })
+       .catch(err=>{
+           if(err){
+               console.log(err);
+           }
+       })
+    </script>
+</body>
+</html>

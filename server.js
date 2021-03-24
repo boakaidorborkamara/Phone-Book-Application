@@ -1,6 +1,6 @@
 const http = require("http");
 const fs = require("fs");
-const { Database } = require("sqlite3");
+// const { Database } = require("sqlite3");
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./phoneBook', (err)=>{
     if(err){
@@ -49,15 +49,20 @@ const server = http.createServer((req, res) => {
         let body = "";
         req.on('data', (data) =>{
             body += data;
+
+
         }) ;
         req.on('end', () =>{
             let front_data = JSON.parse(body);
-            console.log(front_data);
             db.all(`INSERT INTO contacts( name, contact) VALUES(?,?)`, front_data.name,front_data.contact, (err, result)=>{
                 if(err){
                     console.log(err);
+                    res.end(JSON.stringify({status:1,status_message:"Error! Contact was not created!"}))
+
                 }
                 console.log('Data inserted successfuly');
+                res.end(JSON.stringify({status:0,status_message:"Contact Sucessfully Created,OK to view contact"}))
+
             })
         })
 
@@ -67,8 +72,7 @@ const server = http.createServer((req, res) => {
         /**
          * Query the contacts table, get the data and send it to the user 
          */
-        let sql_data = `SELECT * FROM contacts`;
-        db.all(sql_data,(err, rows)=>{
+        db.all(`SELECT * FROM contacts;`,(err, rows)=>{
             if(err) throw err;
             
                 res.end(JSON.stringify({rows}));
@@ -80,6 +84,6 @@ const server = http.createServer((req, res) => {
     }
 })
 
-server.listen(3700, () => {
-    console.log("Server is listening on port 3700");
+server.listen(3800, () => {
+    console.log("Server is listening on port 3800");
 })

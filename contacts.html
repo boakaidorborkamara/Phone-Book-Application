@@ -17,7 +17,8 @@
             /* justify-content: center; */
             border: 1px solid green;
             width: 40vw;
-            height: 95vh;
+            min-height: 95vh;
+            height: 100%;
             background-color: white;
             
         }
@@ -111,18 +112,17 @@
          * You should use a table or list to display the items
         */
         let contacts = document.getElementById('contacts');
+
        fetch('/contacts')
-       .then(response =>response.json())
-       .then((data) => {
-           console.log(data)
-        let fetched_data = data.rows;
-        fetched_data.forEach((ele,index)=>{
-            console.log(ele.contact);
-            let table_data =
+            .then(response =>response.json())
+            .then((data) => {
+                let fetched_data = data.rows;
+                fetched_data.forEach((contact_info,index)=>{
+                let table_data =
                         `
                         <tr>
-                            <td>${ele.name}</td>
-                            <td>${ele.contact}</td>
+                            <td>${contact_info.name}</td>
+                            <td>${contact_info.contact}</td>
                         </tr>
                         `;
                         document.querySelector('tbody').insertAdjacentHTML('beforeend', table_data)

@@ -97,7 +97,8 @@
                 <br>
                 <input type="text" placeholder="Contact" id="contact">
                 <br>
-                <button onclick="createContact()">Create</button>
+                <input type="button" value="Create" onclick="createContact()">
+                <!-- <button onclick="createContact()">Create</button> -->
             </form>
         </section>
     </main>
@@ -114,6 +115,7 @@
             let name = document.getElementById('name').value;
             let contact = document.getElementById('contact').value;
 
+          
             let frontend_data ={
                 'name': name,
                 'contact': contact
@@ -126,8 +128,14 @@
             })
             .then(response => response.json())
             .then((data) =>{
-               response.redirect('/contacts');
-               
+                if(data.status === 0){
+                    alert(data.status_message);
+                    window.location.href='/';
+                 }
+                 else if(data.status === 1){
+                     alert(data.status_message);
+                     window.location.href = "contact/create";
+                 }
             })
             .catch((error)=>{
                 console.log(error);
